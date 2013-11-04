@@ -2,53 +2,52 @@ require 'pocket_rails_helpers/options_parser'
 
 describe PocketRailsHelpers::OptionsParser do
 
-  describe "link parsing" do
+  let(:parsed) { described_class.new(options).call }
 
-    it "returns no save-url option if no link given" do
-      options = {}
-      parsed = described_class.new(options).call
+  describe "with empty options" do
+
+    let(:options) { {} }
+
+    it "doesn't set 'save-url'" do
       expect(parsed).not_to have_key 'save-url'
     end
 
-    it "returns save-url with link url if link given" do
-      options = { link: 'http://example.com' }
-      parsed = described_class.new(options).call
+    it "defaults 'pocket-count' to 'vertical'" do
+      expect(parsed['pocket-count']).to eq 'vertical'
+    end
+
+    it "doesn't set 'pocket-align'" do
+      expect(parsed).not_to have_key 'pocket-align'
+    end
+  end
+
+  describe "with 'link' option set" do
+
+    let(:options) { { link: 'http://example.com' } }
+
+    it "sets the 'save-url' to given value" do
       expect(parsed['save-url']).to eq 'http://example.com'
     end
   end
 
-  describe "style parsing" do
+  describe "with 'style' set to 'horizontal'" do
 
-    it "defaults to vertical if none given" do
-      options = {}
-      parsed = described_class.new(options).call
-      expect(parsed['pocket-count']).to eq 'vertical'
+    let(:options) { { style: 'horizontal' } }
+
+    it "sets 'pocket-count' to the passed value" do
+      expect(parsed['pocket-count']).to eq 'horizontal'
     end
 
-    it "sets pocket-count to passed value if given" do
-      options = { style: 'horizontal' }
-      parsed = described_class.new(options).call
-      expect(parsed['pocket-count']).to eq 'horizontal'
+    it "defaults the 'pocket-align' value to 'left'" do
+      expect(parsed['pocket-align']).to eq 'left'
     end
   end
 
-  describe "alignment parsing" do
+  describe "with 'align' set to 'right'" do
 
-    it "sets no alignment if none given" do
-      options = {}
-      parsed = described_class.new(options).call
-      expect(parsed).not_to have_key 'pocket-align'
-    end
+    let(:options) { { align: 'right' } }
 
-    it "defaults alignment to left if style is horizontal" do
-      options = { style: 'horizontal' }
-      parsed = described_class.new(options).call
-      expect(parsed['pocket-align']).to eq 'left'
-    end
-
-    it "sets pocket-align to passed value if given" do
-      options = { align: 'right' }
-      parsed = described_class.new(options).call
+    it "sets pocket-align to the passed value" do
       expect(parsed['pocket-align']).to eq 'right'
     end
   end
