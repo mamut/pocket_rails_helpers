@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'pocket-rails-helpers/version'
+require 'pocket_rails_helpers/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "pocket-rails-helpers"
-  gem.version       = Pocket::Rails::Helpers::VERSION
+  gem.name          = "pocket_rails_helpers"
+  gem.version       = PocketRailsHelpers::VERSION
   gem.authors       = ["Krzysztof Urban"]
   gem.email         = ["krzysztof.urban@netguru.pl"]
   gem.description   = %q{TODO: Write a gem description}
